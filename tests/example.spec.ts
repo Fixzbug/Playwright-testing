@@ -1,42 +1,42 @@
 import { test, expect } from '@playwright/test';
-import { error, log } from 'console';
 
-// test('has title', async ({ page }) => {
-//   await page.goto('https://playwright.dev/');
+test.describe('หน้าล็อกอิน', () => {
+  test.beforeEach(async ({ page }) => {
+    // เปิดหน้าเว็บก่อนรันแต่ละเทสต์
+    await page.goto('http://localhost:8081');
+  });
 
-//   // Expect a title "to contain" a substring.
-//   await expect(page).toHaveTitle(/Playwright/);
-// });
+  test('ล็อกอินสำเร็จด้วยข้อมูลที่ถูกต้อง', async ({ page }) => {
+    // กรอกข้อมูล
+    await page.fill('#username', 'test');
+    await page.fill('#password', 'password123');
 
+    // กดปุ่มล็อกอิน
+    await page.click('button[type="submit"]');
 
-test('get started link', async ({ page }) => {
+    // ตรวจสอบข้อความแจ้งเตือน
+    const message = await page.locator('#message');
+    await expect(message).toHaveText('เข้าสู่ระบบสำเร็จ!');
+    await expect(message).toHaveClass('success');
+  });
 
-  let title = 'Swag Labs';
-  let url = 'https://www.saucedemo.com/'
+  test('ล็อกอินไม่สำเร็จเมื่อใส่รหัสผ่านผิด', async ({ page }) => {
+    await page.fill('#username', 'test');
+    await page.fill('#password', 'รหัสผิด');
+    await page.click('button[type="submit"]');
 
-  await page.goto(url);
-  await expect(page.getByText(title)).toBeVisible();
-  
-  await page.fill('#user-name', 'standard_user'); // Replace 'your-username' with the actual username
-  await page.fill('#password', 'secret_sauce'); // Replace 'your-username' with the actual username
+    const message = await page.locator('#message');
+    await expect(message).toHaveText('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+    await expect(message).toHaveClass('error');
+  });
 
-  await expect(page.getByText('Login')).toBeVisible().then(async()=>{
-    await page.click('#login-button');
-    await page.selectOption('.product_sort_container', 'lohi'); // 'lohi' is for "Price (low to high)"
-  }).catch(error=>{
-    console.log(error);
-  })
+  test('ฟอร์มต้องมีการกรอกข้อมูลครบ', async ({ page }) => {
+    // ทดสอบว่ามี required attribute
+    await expect(page.locator('#username')).toHaveAttribute('required', '');
+    await expect(page.locator('#password')).toHaveAttribute('required', '');
+  });
 
-  // await page.close();
-  
-  
-  // await page.click('#login-button').then(async ()=>{
-  //   await page.getByText('Epic sadface: Username is required').isVisible()
-  // })
-
-
-  // // Click the get started link.
-  // await page.getByRole('link', { name: 'Get started' }).click();
-
-  // // Expects page to have a heading with the name of Installation.
+  test('รหัสผ่านต้องเป็นแบบ password type', async ({ page }) => {
+    await expect(page.locator('#password')).toHaveAttribute('type', 'password');
+  });
 });
