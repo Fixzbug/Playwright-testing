@@ -43,6 +43,7 @@ pipeline {
 
       stage('Check Dependencies') {
           steps {
+              bat 'npx playwright install --save-dev'
               bat 'npm install'
           }
       }
