@@ -57,6 +57,7 @@ pipeline {
       stage('e2e Tests') {
           steps {
               bat 'npm run pw:test'
+              bat 'Ctrl+C'
         }
       }
   }
