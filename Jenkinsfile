@@ -44,8 +44,6 @@ pipeline {
       stage('Check Dependencies') {
           steps {
               bat 'npm install'
-            //   bat 'npm install cypress --save-dev'
-            //   bat 'npm install cypress-multi-reporters --save-dev'
           }
       }
 
