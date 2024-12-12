@@ -1,0 +1,14 @@
+def getData(String key) {
+    def dataMap = [
+        'CASE1':[
+            'tag':'TC001'
+        ],
+        'CASE1':[
+            'tag':'TC002'
+        ]
+    ]
+    return dataMap[key] ?: 'Key not found'
+}
+
+// Return the function for external use
+return this
