@@ -57,7 +57,8 @@ pipeline {
       stage('e2e Tests') {
         steps {
             bat 'npm run pw:test'
-            sleep(time: 30, unit: 'SECONDS')  // Wait for a while (or adjust time based on test duration)
+            bat 'npm run pw:test-report'
+            sleep(time: 5, unit: 'SECONDS')  // Wait for a while (or adjust time based on test duration)
             bat 'taskkill /F /IM node.exe'   // This command kills the Node.js process
         }
       }
