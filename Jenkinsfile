@@ -42,22 +42,23 @@ pipeline {
     stages {
 
       stage('Check Dependencies') {
-          steps {
-              bat 'npx playwright install'
-              bat 'npm install'
-          }
+        steps {
+            bat 'npx playwright install'
+            bat 'npm install'
+        }
       }
 
       stage('Covert value to run case') {
-          steps {
-              convertpath('jenkinsdata')
-          }
+        steps {
+            convertpath('jenkinsdata')
+        }
       }
 
       stage('e2e Tests') {
-          steps {
-              bat 'npm run pw:test'
-              bat 'Ctrl+C'
+        steps {
+            bat 'npm run pw:test'
+            sleep(time: 30, unit: 'SECONDS')  // Wait for a while (or adjust time based on test duration)
+            bat 'taskkill /F /IM node.exe'   // This command kills the Node.js process
         }
       }
   }
