@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test",
+    "pw:test": "playwright test && npx playwright show-report",
     "test:ui": "playwright test --ui",
-    "serve": "npx http-server ."
+    "pw:serve": "npx http-server ."
   },
   "keywords": [],
   "author": "",
