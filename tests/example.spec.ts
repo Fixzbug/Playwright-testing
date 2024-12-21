@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('หน้าล็อกอิน', () => {
   test.beforeEach(async ({ page }) => {
     // เปิดหน้าเว็บก่อนรันแต่ละเทสต์
-    await page.goto('https://example.cypress.io');
+    await page.goto('https://example.cypress.io/');
     // await page.goto('http://localhost:8081');
   });
 
@@ -44,4 +44,26 @@ test.describe('หน้าล็อกอิน', () => {
   // test('รหัสผ่านต้องเป็นแบบ password type', async ({ page }) => {
   //   await expect(page.locator('#password')).toHaveAttribute('type', 'password');
   // });
+
+
+  test('has title', async ({ page }) => {
+    await page.goto('https://playwright.dev/');
+  
+    // Expect a title "to contain" a substring.
+    await expect(page).toHaveTitle(/Playwright/);
+  });
+  
+  test('get started link', async ({ page }) => {
+    await page.goto('https://playwright.dev/');
+  
+    // Click the get started link.
+    await page.getByRole('link', { name: 'Get started' }).click();
+  
+    // Expects page to have a heading with the name of Installation.
+    await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+  });
+  
 });
+
+
+

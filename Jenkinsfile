@@ -35,7 +35,9 @@ def convertpath(String files) {
 
 pipeline {
     agent any
-    tools {nodejs "Node"}
+    tools {
+        nodejs "Node"
+    }
     options {
         ansiColor('xterm')
     }
